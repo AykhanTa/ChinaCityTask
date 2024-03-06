@@ -2,60 +2,31 @@
 {
      class City
      {
-        string _name;
+         string _name;
         public string Name {
-            get 
-            {
-                return _name;
-            }
+            get=> _name;            
             set
             {
-                bool isLetter = true;
-                if (!(value.Length > 3 && value.Length < 20))
-                {
-                    Console.WriteLine("serte uygun deyil");
-                    return;
-                }
-               
-                foreach (var item in value)
-                {
-                    
-                    if (!(char.IsLetter(item)))
-                    {
-                        isLetter= false;
-                        break;
-                    }
-                }
-                if (isLetter)
-                {
-                    _name = value;
-                }
-                else
-                {
-                    Console.WriteLine("Serte uygun deyilllll");
-                    return;
-                }
-                
-                
+                if (CheckName(value)) _name = value;
             }
         }
-        int _population;
-        public int Population {
-            get
-            {
-                return _population;
-            }
+        protected int _population;
+        public virtual int Population {
+            get=> _population;
             set 
             {
-                if (value<0)
-                {
-                    Console.WriteLine("Deyer 0-dan asagi ola bilmez.");
-                    return;
-                }
-                _population= value;
-            } 
+                if (value>0) _population = value;
+            }
         }
 
-        
+        private bool CheckName(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return false;
+            if (!(value.Length > 3 && value.Length < 20)) return false;
+            foreach (char c in value)
+                if(!char.IsLetter(c)) return false;
+                return true;
+        }
+
     }
 }
